@@ -1,5 +1,5 @@
 <!-- Registration Form -->
-<form [formGroup]="registerForm">
+<form [formGroup]="registerForm" (ngSubmit)="register()">
     <!-- Name -->
     <div class="mb-3">
       <label class="inline-block mb-2">Name</label>
@@ -56,8 +56,9 @@
     </div>
     <button
       type="submit"
-      class="block w-full bg-indigo-400 text-white py-1.5 px-3 rounded transition hover:bg-indigo-500"
-    >
+      class="block w-full bg-indigo-400 text-white py-1.5 px-3 rounded transition
+       hover:bg-indigo-500 disabled:opacity-50"
+      [disabled]="registerForm.invalid">
       Submit
     </button>
   </form>
