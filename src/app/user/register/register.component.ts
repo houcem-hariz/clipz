@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AngularFireAuth } from '@angular/fire/compat/auth'
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AuthService } from '../../services/auth.service'
+import IUser from 'src/app/models/user.model';
  
 @Component({
   selector: 'app-register',
@@ -11,15 +11,12 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 export class RegisterComponent {
 
   inSubmission = false
-  constructor( 
-    private auth: AngularFireAuth,
-    private db: AngularFirestore) {
-
-  }
-showAlert = false
-alertMessage = 'Please wait! Your account is being created'
-alertColor = 'blue'
-
+  showAlert = false
+  alertMessage = 'Please wait! Your account is being created'
+  alertColor = 'blue'
+  
+  constructor(private auth : AuthService) {}
+  
   registerForm = new FormGroup({
     name: new FormControl('', [
       Validators.required,
@@ -30,7 +27,7 @@ alertColor = 'blue'
       Validators.required,
       Validators.email
     ]),
-    age: new FormControl('', [
+    age: new FormControl<number | null>(null, [
       Validators.required,
       Validators.min(18),
       Validators.max(120)
@@ -55,18 +52,8 @@ alertColor = 'blue'
     this.alertMessage = 'Please wait! Your account is being created'
     this.alertColor = 'blue'  
     this.inSubmission = true
-    const { email, password } = this.registerForm.value
     try {
-      const userCredentials = await this.auth.createUserWithEmailAndPassword(
-        email as string, password as string
-      )
-      
-      await this.db.collection('users').add({
-        name: this.registerForm.value.name,
-        email: this.registerForm.value.email,
-        age: this.registerForm.value.age,
-        phoneNumber: this.registerForm.value.phoneNumber
-      })
+        this.auth.createUser(this.registerForm.value as IUser)
     } catch (error) {
       console.error(error)
       this.alertMessage = 'An unexpected error occured. Please try again later'
