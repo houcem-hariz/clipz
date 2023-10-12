@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth'
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import IUser  from '../models/user.model'
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +10,16 @@ import IUser  from '../models/user.model'
 export class AuthService {
 
   private userCollection : AngularFirestoreCollection<IUser>
+  public isAuthenticated$ : Observable<boolean>
+  
   constructor(
     private auth: AngularFireAuth,
     private db: AngularFirestore
     ) { 
       this.userCollection = this.db.collection('users')
+      this.isAuthenticated$ = auth.user.pipe(
+        map(user =>  !!user)
+      )
     }
 
   public async createUser(userData: IUser) {
@@ -25,11 +31,18 @@ export class AuthService {
       userData.email as string, userData.password as string
     )
     
-    await this.userCollection.add({
+    if(!userCredentials.user) {
+      throw new Error('User cannot be found')
+    }
+    await this.userCollection.doc(userCredentials.user.uid).set({
       name: userData.name,
       email: userData.email,
       age: userData.age,
       phoneNumber: userData.phoneNumber
+    })
+
+    await userCredentials.user.updateProfile({
+      displayName: userData.name
     })
   }
 }
