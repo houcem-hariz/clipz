@@ -33,7 +33,7 @@ export class AuthService {
     }
 
     const userCredentials = await this.auth.createUserWithEmailAndPassword(
-      userData.email as string, userData.password as string
+      userData.email, userData.password
     )
     
     if(!userCredentials.user) {

@@ -12,17 +12,7 @@ export class InputComponent implements OnInit, OnChanges{
   @Input() placeholder : string = ''
   @Input() format : string = ''
 
-  constructor() {
-
-  }
-  
-  ngOnInit(): void {
-
-  }
-
-  ngOnChanges(): void {
-    console.log(this.control);
-    
-  }
-
+  constructor() {}
+  ngOnInit(): void {}
+  ngOnChanges(): void {}
 }

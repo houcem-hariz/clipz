@@ -40,4 +40,8 @@
         class="text-red-400">
         Passwords do not match        
     </p>
+    <p *ngIf="control.errors?.emailTaken"
+        class="text-red-400">
+        Email Taken. Please try another email.
+    </p>
 </ng-container>

@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service'
 import IUser from 'src/app/models/user.model';
 import { RegisterValidators } from '../validators/register-validators';
-
+import { EmailTaken } from '../validators/email-taken';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -16,7 +16,9 @@ export class RegisterComponent {
   alertMessage = 'Please wait! Your account is being created'
   alertColor = 'blue'
   
-  constructor(private auth : AuthService) {}
+  constructor(
+    private auth : AuthService,
+    private emailTaken: EmailTaken) {}
   
   registerForm = new FormGroup({
     name: new FormControl('', [
@@ -27,7 +29,7 @@ export class RegisterComponent {
     email: new FormControl('', [
       Validators.required,
       Validators.email
-    ]),
+    ], [this.emailTaken.validate]),
     age: new FormControl<number | null>(null, [
       Validators.required,
       Validators.min(18),
