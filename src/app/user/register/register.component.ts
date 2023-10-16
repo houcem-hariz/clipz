@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service'
 import IUser from 'src/app/models/user.model';
- 
+import { RegisterValidators } from '../validators/register-validators';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -45,7 +46,7 @@ export class RegisterComponent {
       Validators.minLength(10),
       Validators.maxLength(10)
     ])
-  })
+  }, [RegisterValidators.match('password', 'confirm_password')])
 
   async register() {
     this.showAlert = true
