@@ -12,7 +12,8 @@
             drop: emitted when something is dropped onto the element
         -->
         <!-- Upload Dropbox -->
-        <div *ngIf="!nextStep; else uploadFormContainer"
+        <ng-container *ngIf="!nextStep; else uploadFormContainer">
+            <div
             app-event-blocker 
             (dragend)="isDragOver = false"
             (dragover)="isDragOver = true"
@@ -24,11 +25,13 @@
                 'bg-indigo-400 border-indigo-400 border-solid': isDragOver
             }"
             class="w-full px-10 py-40 rounded text-center cursor-pointer border border-dashed
-          border-gray-400 transition duration-500 hover:text-white
-          hover:bg-indigo-400 hover:border-indigo-400 hover:border-solid text-xl">
+            border-gray-400 transition duration-500 hover:text-white
+            hover:bg-indigo-400 hover:border-indigo-400 hover:border-solid text-xl">
             <h5>Drop your file here (mp4 only!)</h5>
         </div>
-
+        <input type="file" class="mt-4" (change)="storeFile($event)">
+    </ng-container>
+        
         <!-- Video Editor -->
         <ng-template #uploadFormContainer>
             <app-alert *ngIf="showAlert" [color]="alertColor" >
