@@ -1,3 +1,4 @@
+import firebase from 'firebase/compat/app'
 export default interface IClip {
 
     uid: string
@@ -5,4 +6,5 @@ export default interface IClip {
     title: string
     fileName: string
     url: string
+    timestamp: firebase.firestore.FieldValue
 }

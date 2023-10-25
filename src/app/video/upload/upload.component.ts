@@ -97,7 +97,8 @@ export class UploadComponent implements OnDestroy{
           displayName: this.user?.displayName as string,
           title: this.title.value,
           fileName: `${clipFileName}.mp4`,
-          url
+          url,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
         }
 
         const clipDocRef = await this.clipService.createClip(clip)
@@ -109,7 +110,7 @@ export class UploadComponent implements OnDestroy{
 
         setTimeout(() => {
           this.router.navigate([
-            'clip ', clipDocRef.id
+            'clip', clipDocRef.id
           ])
         }) 
       },
