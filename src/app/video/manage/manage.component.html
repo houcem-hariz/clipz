@@ -19,7 +19,7 @@
         <div *ngFor="let clip of clips" class="mt-6 rounded-tl-2xl rounded-br-2xl shadow-xl bg-secondary flex flex-col justify-start">
 
             <!-- Image -->
-            <a href="#">
+            <a [routerLink]="['/', 'clip', clip.docID]">
                 <img class="card-img-top rounded-tl-2xl w-full" [src]="clip.screenshotURL" crossorigin>
             </a>
 
